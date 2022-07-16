@@ -13,7 +13,7 @@ class UserShareApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        iconTheme: const IconThemeData(
           color: Colors.blue,
         ),
         toolbarHeight: 90,

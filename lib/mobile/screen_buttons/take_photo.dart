@@ -99,6 +99,7 @@ class _PhotoDataState extends State<PhotoData> {
       UploadTask uploadTask3 = imageRef.putFile(_image3!);
       await Future.value(uploadTask3);
       var imageUrl3 = await imageRef.getDownloadURL();
+      Navigator.pop(context);
       FirebaseFirestore.instance.collection('Leads').add({
         'name': namecontroller.text.trim(),
         'address': adresscontroller.text.trim(),
@@ -157,7 +158,6 @@ class _PhotoDataState extends State<PhotoData> {
         child: Form(
           key: _formKey,
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
@@ -203,6 +203,15 @@ class _PhotoDataState extends State<PhotoData> {
                     fontSize: getProportionateScreenWidth(28),
                     fontWeight: FontWeight.bold,
                   )),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text(
+                    'You have to place 4 images to upload \n the data successfully',
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 28.0,
               ),
@@ -411,8 +420,12 @@ class _PhotoDataState extends State<PhotoData> {
   TextFormField buildfmailFormField() {
     return TextFormField(
       validator: (value) {
-        if (value!.isEmpty) {
-          return 'Please Enter Your Email.';
+        if (value == null || value.isEmpty) {
+          return 'Email address cannot be empty';
+        }
+        String pattern = r'\w+@\w+\.\w+';
+        if (!RegExp(pattern).hasMatch(value)) {
+          return 'InvalidE-mail Address format.';
         }
         return null;
       },

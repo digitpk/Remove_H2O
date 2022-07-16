@@ -1,12 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:remove_h2o/mobile/Screens/sign_in/sign_in_screen.dart';
 import 'package:remove_h2o/mobile/components/my_drawer_header.dart';
 import 'package:remove_h2o/mobile/myInfo_screen/myInfo_Body.dart';
 import 'package:remove_h2o/mobile/ushome/components/us_body.dart';
 import 'package:remove_h2o/mobile/ushome/uscontact_us_body.dart';
 import 'package:remove_h2o/mobile/ushome/user_about_us.dart';
 import 'package:remove_h2o/mobile/ushome/user_share_app.dart';
+import 'package:remove_h2o/mobile/vendor_user/userapprovedbody.dart';
 
 class UserNavigationDrawer extends StatelessWidget {
   UserNavigationDrawer({Key? key}) : super(key: key);
@@ -56,6 +58,12 @@ class UserNavigationDrawer extends StatelessWidget {
                         icon: Icons.person_outlined,
                         onclick: () => Selecteditem(context, 5),
                       ),
+                      Divider(),
+                      manuitems(
+                        text: 'Log Out',
+                        icon: Icons.logout,
+                        onclick: () => Selecteditem(context, 6),
+                      ),
                     ],
                   ),
                 ),
@@ -88,6 +96,13 @@ class UserNavigationDrawer extends StatelessWidget {
       case 5: // My Info screen
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => Infoscreenbody()));
+        break;
+      case 6: // Logout
+        auth.signOut();
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: ((context) => SignInScreen())));
+      // Navigator.push(
+      //     context, MaterialPageRoute(builder: (context) => Infoscreenbody()));
     }
   }
 }

@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:remove_h2o/mobile/navigartion_drawer.dart';
@@ -95,9 +94,12 @@ class ReportEMG extends StatelessWidget {
                       StreamBuilder(
                         stream: FirebaseFirestore.instance
                             .collection('Users')
-                            .where('docId',
-                                isEqualTo:
-                                    FirebaseAuth.instance.currentUser!.uid)
+                            .where(
+                              'docId',
+                              isEqualTo:
+                                  // 'FirebaseAuth.instance.currentUser!.uid',
+                                  '0lclsIKAJlYBtpMdaVUFkqZg3uw2',
+                            )
                             .snapshots(),
                         builder: (BuildContext context,
                             AsyncSnapshot<QuerySnapshot> snapshot) {

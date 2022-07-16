@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:remove_h2o/mobile/Screens/sign_in/sign_in_screen.dart';
 import 'package:remove_h2o/mobile/Screens/sign_up/sign_up_screen.dart';
 import 'package:remove_h2o/website/components/default_button.dart';
 import 'package:remove_h2o/website/components/my_outline_button.dart';
 import 'package:remove_h2o/website/constants.dart';
+import 'package:remove_h2o/website/websignin.dart';
 
 import 'components/about_section_text.dart';
 import 'components/about_text_with_sign.dart';
@@ -45,7 +45,7 @@ class AboutSection extends StatelessWidget {
                 text: "SignIn",
                 press: () {
                   Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => SignInScreen()));
+                      MaterialPageRoute(builder: (context) => WebLoginPage()));
                 },
               ),
               SizedBox(width: kDefaultPadding * 1.5),

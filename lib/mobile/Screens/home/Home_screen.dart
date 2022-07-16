@@ -151,6 +151,6 @@ class HomeState extends State<Home> {
 //   socialmedia,
 //   shareapp,
 //   myinfo,
-    return Body();
+    return VendorBody();
   }
 }

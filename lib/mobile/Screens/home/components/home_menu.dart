@@ -8,12 +8,14 @@ class HomeMenu extends StatelessWidget {
     Key? key,
     required this.text,
     required this.icon,
+    required this.boxColor,
     this.press,
   }) : super(key: key);
 
   final String text;
   final IconData icon;
   final VoidCallback? press;
+  final Color boxColor;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +28,7 @@ class HomeMenu extends StatelessWidget {
           textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          backgroundColor: Colors.grey[200],
+          backgroundColor: boxColor,
         ),
         onPressed: press,
         child: Row(

@@ -90,6 +90,7 @@ class _PendingAccess_bodyState extends State<PendingAccess_body> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           iconTheme: IconThemeData(
             color: Colors.blue,
           ),
@@ -102,7 +103,7 @@ class _PendingAccess_bodyState extends State<PendingAccess_body> {
             height: getProportionateScreenHeight(270),
           ),
         ),
-        drawer: NavigationDrawer(),
+        // drawer: Drawer(),
         // appBar: AppBar(
         //   leading: IconButton(
         //     onPressed: () {},
@@ -243,25 +244,39 @@ class _PendingAccess_bodyState extends State<PendingAccess_body> {
                               builder: (_) => AlertDialog(
                                 elevation: 24.0,
                                 backgroundColor: Colors.white,
-                                title: Text(data['firstName'].toString()),
+                                title: Text(data['email'].toString()),
                                 content: Text("Do you want to give access"),
                                 actions: <Widget>[
                                   FlatButton(
-                                      child: Text("No"),
-                                      onPressed: () {
-                                        setState(() {
-                                          deleteuser(data['docId']);
-                                        });
-                                        Navigator.of(context).pop();
-                                      }),
-                                  FlatButton(
-                                    child: Text("Yes"),
+                                    color: Colors.green,
+                                    child: Text("Yes",style: TextStyle(
+                                      color: Colors.white
+                                    ),),
                                     onPressed: () {
                                       setState(() {
                                         updateUser(data['docId']);
                                       });
-
                                       Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  FlatButton(
+                                    color: Colors.yellow,
+                                      child: Text("No",style: TextStyle(
+                                          color: Colors.white
+                                      ),),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      }),
+                                  FlatButton(
+                                    color: Colors.red,
+                                    child: Text("Delete",style: TextStyle(
+                                        color: Colors.white
+                                    ),),
+                                    onPressed: () {
+                                      setState(() {
+                                        deleteuser(data['docId']);
+                                      });
+                                      Navigator.pop(context);
                                     },
                                   ),
                                 ],

@@ -14,12 +14,17 @@ class AddressUpgrade extends StatefulWidget {
 
 class _AddressUpgradeState extends State<AddressUpgrade> {
   TextEditingController newadressController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   void Updateadress() {
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(auth.currentUser!.uid)
-        .update({'Adress': newadressController.text.trim()});
+    if (_formKey.currentState!.validate()) {
+      FirebaseFirestore.instance
+          .collection('Users')
+          .doc(auth.currentUser!.uid)
+          .update({'Adress': newadressController.text.trim()}).then((value) {
+        Navigator.pop(context);
+      });
+    }
   }
 
   @override
@@ -27,11 +32,13 @@ class _AddressUpgradeState extends State<AddressUpgrade> {
     return Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.menu),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.arrow_back),
           ),
           automaticallyImplyLeading: false,
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.blue,
           ),
           toolbarHeight: 90,
@@ -44,51 +51,59 @@ class _AddressUpgradeState extends State<AddressUpgrade> {
           ),
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
-                  backgroundColor: Colors.black,
-                  radius: 16,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Padding(
-                      padding: const EdgeInsets.only(left: 2.0, bottom: 1),
-                      child: Icon(Icons.arrow_back_ios, size: 18),
-                    ),
-                  )),
-              SizedBox(height: 55),
+              // CircleAvatar(
+              //     backgroundColor: Colors.black,
+              //     radius: 16,
+              //     child: IconButton(
+              //       onPressed: () {
+              //         Navigator.pop(context);
+              //       },
+              //       icon: Padding(
+              //         padding: const EdgeInsets.only(left: 2.0, bottom: 1),
+              //         child: Icon(Icons.arrow_back_ios, size: 18),
+              //       ),
+              //     )),
+              const SizedBox(height: 70),
               Text('Change Address:',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: getProportionateScreenWidth(28),
                     fontWeight: FontWeight.bold,
                   )),
-              SizedBox(height: 48),
-              TextFormField(
-                controller: newadressController,
-                decoration: InputDecoration(
-                  hintText: "Enter New Address",
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  // prefixIcon: Padding(
-                  //   padding: const EdgeInsets.only(left: 16.0),
-                  //   child: CustomIcon(svgIcon: "assets/icons/Lock.svg"),
-                  // ),
-                  prefixIcon: IconButton(
-                    icon: FaIcon(
-                      FontAwesomeIcons.mapLocationDot,
-                      color: Color.fromARGB(255, 8, 8, 8),
+              const SizedBox(height: 48),
+              Form(
+                key: _formKey,
+                child: TextFormField(
+                  controller: newadressController,
+                  validator: (updateAddress) {
+                    if (updateAddress == null || updateAddress.isEmpty) {
+                      return "Address can't be empty";
+                    }
+                  },
+                  decoration: const InputDecoration(
+                    hintText: "Enter New Address",
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    // prefixIcon: Padding(
+                    //   padding: const EdgeInsets.only(left: 16.0),
+                    //   child: CustomIcon(svgIcon: "assets/icons/Lock.svg"),
+                    // ),
+                    prefixIcon: IconButton(
+                      icon: FaIcon(
+                        FontAwesomeIcons.mapLocationDot,
+                        color: Color.fromARGB(255, 8, 8, 8),
+                      ),
+                      iconSize: 18,
+                      onPressed: null,
                     ),
-                    iconSize: 18,
-                    onPressed: null,
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               Center(
@@ -100,10 +115,10 @@ class _AddressUpgradeState extends State<AddressUpgrade> {
                     elevation: 3,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(32.0)),
-                    minimumSize: Size(100, 40), //////// HERE
+                    minimumSize: const Size(100, 40), //////// HERE
                   ),
                   onPressed: Updateadress,
-                  child: Text('Continue'),
+                  child: const Text('Continue'),
                 ),
               )
             ],

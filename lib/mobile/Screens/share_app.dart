@@ -14,9 +14,10 @@ class ShareApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: const IconThemeData(
-          color: Colors.blue,
-        ),
+        automaticallyImplyLeading: false,
+        // iconTheme: const IconThemeData(
+        //   color: Colors.blue,
+        // ),
         toolbarHeight: 90,
         backgroundColor: Colors.white,
         brightness: Brightness.light,
@@ -31,7 +32,7 @@ class ShareApp extends StatelessWidget {
                 height: getProportionateScreenHeight(270),
               ),
       ),
-      drawer: NavigationDrawer(),
+      // drawer: NavigationDrawer(),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: Container(

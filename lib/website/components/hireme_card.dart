@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:remove_h2o/mobile/Screens/sign_in/sign_in_screen.dart';
 import 'package:remove_h2o/website/constants.dart';
+import 'package:remove_h2o/website/websignin.dart';
 
 import 'default_button.dart';
 
@@ -54,7 +54,7 @@ class HireMeCard extends StatelessWidget {
             imageSrc: "assets/images/hand.png",
             press: () {
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => SignInScreen()));
+                  MaterialPageRoute(builder: (context) => WebLoginPage()));
             },
           )
         ],

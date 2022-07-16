@@ -7,14 +7,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:remove_h2o/main.dart';
 import 'package:remove_h2o/mobile/navigartion_drawer.dart';
 import 'package:remove_h2o/mobile/size_config.dart';
 import 'package:remove_h2o/mobile/vendor_user/userapprovedbody.dart';
 
 class AboutDetail extends StatefulWidget {
-  const AboutDetail({Key? key}) : super(key: key);
+  String image;
+  AboutDetail({required this.image});
 
   @override
   State<AboutDetail> createState() => _AboutDetailState();
@@ -29,9 +32,9 @@ class _AboutDetailState extends State<AboutDetail> {
   TextEditingController workadresscontroller = TextEditingController();
   File? _image;
   File? _logo;
-
+  ///code for update company IMAGE
   Future getImage() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.camera);
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     if (image != null) {
       final imageTem = File(image.path);
       setState(() {
@@ -39,9 +42,21 @@ class _AboutDetailState extends State<AboutDetail> {
       });
     }
   }
-
-  Future getlogo() async {
+  ///code for company logo get image from camera
+  Future getLogo() async {
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
+    // final image = await ImagePicker().pickImage(source: ImageSource.gallery);/
+    if (image != null) {
+      final imageTem = File(image.path);
+      setState(() {
+        _logo = imageTem;
+      });
+    }
+  }
+  ///code for company logo get image from gallery
+  Future getGallery() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    // final image = await ImagePicker().pickImage(source: ImageSource.gallery);/
     if (image != null) {
       final imageTem = File(image.path);
       setState(() {
@@ -50,20 +65,18 @@ class _AboutDetailState extends State<AboutDetail> {
     }
   }
 
-  void ShowSnackBar(BuildContext context) {
-    final snackBar = SnackBar(
-      content: Text('Data uploaded successfully'),
-      backgroundColor: Colors.blue,
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
+  // void ShowSnackBar(BuildContext context) {
+  //   final snackBar = SnackBar(
+  //     content: Text('Data uploaded successfully'),
+  //     backgroundColor: Colors.blue,
+  //   );
+  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  // }
 
   Future submitData() async {
     final isValid = _formKey.currentState!.validate();
-
     if (isValid) {
       _formKey.currentState!.save();
-
       workadresscontroller.text.trim();
       UploadTask uploadTask = imageRef.putFile(_image!);
       await Future.value(uploadTask);
@@ -79,7 +92,9 @@ class _AboutDetailState extends State<AboutDetail> {
         'imageUrl': imageUrl,
         'logo': imageUrl1,
         'docId': ref.id,
-      }).then((value) => ShowSnackBar(context));
+      }).then((value) {
+        flutterToast(msg: "Data update successfully", bgColor: Colors.green,toastLength: Toast.LENGTH_SHORT);
+      });
     }
   }
 
@@ -88,6 +103,7 @@ class _AboutDetailState extends State<AboutDetail> {
     return Scaffold(
       appBar: _logo == null
           ? AppBar(
+              automaticallyImplyLeading: false,
               iconTheme: IconThemeData(
                 color: Colors.blue,
               ),
@@ -96,11 +112,63 @@ class _AboutDetailState extends State<AboutDetail> {
               brightness: Brightness.light,
               centerTitle: true,
               title: TextButton(
-                onPressed: getlogo,
-                child: Text('Update Logo'),
+                onPressed: () async {
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text("Please Select New Logo."),
+                          actions: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Column(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        getLogo();
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.camera_alt_outlined,
+                                          size: 45,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ),
+                                    Text('Camera')
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        getGallery();
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Icon(
+                                          Icons.camera,
+                                          size: 45,
+                                          color: Colors.blue,
+                                        ),
+                                      ),
+                                    ),
+                                    Text('Gallery')
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        );
+                      });
+                },
+                child: Text('Update Company Logo'),
               ),
             )
           : AppBar(
+              automaticallyImplyLeading: false,
               iconTheme: IconThemeData(
                 color: Colors.blue,
               ),
@@ -113,9 +181,9 @@ class _AboutDetailState extends State<AboutDetail> {
                 height: getProportionateScreenHeight(270),
               ),
             ),
-      drawer: NavigationDrawer(),
+      // drawer: NavigationDrawer(),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -136,42 +204,67 @@ class _AboutDetailState extends State<AboutDetail> {
                   ),
                 ),
                 SizedBox(height: 46),
-                _image == null
-                    ? Container(
-                        height: 200.0,
-                        width: 320.0,
-                        decoration: BoxDecoration(
-                          // image: DecorationImage(
-                          //   // image: AssetImage('assets/images/ambulance.jpg'),
-                          //   fit: BoxFit.fill,
-                          // ),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: IconButton(
-                          icon: FaIcon(
-                            FontAwesomeIcons.camera,
-                            color: Color.fromARGB(255, 8, 8, 8),
-                          ),
-                          iconSize: 70,
-                          onPressed: getImage,
-                        ),
-                      )
-                    : Container(
-                        height: 200.0,
-                        width: 320.0,
-                        decoration: BoxDecoration(
-                          // image: DecorationImage(
-                          //   image: Image.file(_image!),
-                          //   fit: BoxFit.fill,
-                          // ),
-                          shape: BoxShape.rectangle,
-                        ),
-                        child: Image.file(_image!),
-                      ),
+                _image ==null? Container(
+                  height: 250.0,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    image: DecorationImage(
+                        image: NetworkImage(widget.image),
+                        fit: BoxFit.cover),),
+                  child: InkWell(
+                    onTap: (){
+                      getImage();
+                    },
+                    child: Icon(
+                      Icons.camera_alt_outlined,
+                      color: Colors.white,
+                      size: 60,
+                    ),
+                  ),
+                ): Container(
+                  height: 250.0,
+                  width: double.infinity,
+                  // decoration: BoxDecoration(
+                  //   shape: BoxShape.rectangle,
+                  //   image: DecorationImage(
+                  //       image: Image.file(_image!),
+                  //       fit: BoxFit.cover),),
+                  child: Image.file(_image!),
+                ),
+                // widget.image == null
+                //     ? Container(
+                //         height: 200.0,
+                //         width: 320.0,
+                //         decoration: BoxDecoration(
+                //           shape: BoxShape.rectangle,
+                //         ),
+                //         child: IconButton(
+                //           icon: FaIcon(
+                //             FontAwesomeIcons.camera,
+                //             color: Color.fromARGB(255, 8, 8, 8),
+                //           ),
+                //           iconSize: 70,
+                //           onPressed: getImage,
+                //         ),
+                //       )
+                //     : Container(
+                //         height: 200.0,
+                //         width: 320.0,
+                //         decoration: BoxDecoration(
+                //           // image: DecorationImage(
+                //           //   image: Image.file(_image!),
+                //           //   fit: BoxFit.fill,
+                //           // ),
+                //           shape: BoxShape.rectangle,
+                //         ),
+                //         child: Image.network(widget.image),
+                //       ),
+                // Text("hello"),
                 SizedBox(height: 16),
                 buildfworkaFormField(),
                 SizedBox(
-                  height: 100,
+                  height: 20,
                 ),
                 Center(
                   child: ElevatedButton(

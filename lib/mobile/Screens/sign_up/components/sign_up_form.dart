@@ -1,6 +1,13 @@
 // ignore_for_file: prefer_const_constructors, curly_braces_in_flow_control_structures
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:remove_h2o/main.dart';
+import 'package:remove_h2o/mobile/Screens/home/components/body.dart';
+import 'package:remove_h2o/mobile/Screens/sign_in/sign_in_screen.dart';
 import 'package:remove_h2o/mobile/components/custom_surfix_icon.dart';
 import 'package:remove_h2o/mobile/components/embosed%20button.dart';
 import 'package:remove_h2o/mobile/components/form_error.dart';
@@ -49,7 +56,11 @@ class _SignUpFormState extends State<SignUpForm> {
         pcontroller.text.trim(),
         passwordcontroller.text.trim(),
       );
-      Navigator.of(context).pop();
+      flutterToast(
+          msg: "new user created successfully please login again",
+          bgColor: Colors.green,
+          toastLength: Toast.LENGTH_LONG);
+      Navigator.push(context, MaterialPageRoute(builder: (_)=>SignInScreen()));
     }
   }
 
@@ -75,6 +86,82 @@ class _SignUpFormState extends State<SignUpForm> {
 
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb || Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
+      return Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: buildfnameFormField(),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: getProportionateScreenWidth(20)),
+                Expanded(
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: buildlastnameFormField(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: getProportionateScreenHeight(15)),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: buildphonenumberFormField(),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: getProportionateScreenWidth(20)),
+                Expanded(
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: buildEmailFormField(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: getProportionateScreenHeight(15)),
+            // buildfnameFormField(),
+            // SizedBox(height: getProportionateScreenHeight(15)),
+            // buildlastnameFormField(),
+            // SizedBox(height: getProportionateScreenHeight(15)),
+            // buildphonenumberFormField(),
+            // SizedBox(height: getProportionateScreenHeight(15)),
+            // buildEmailFormField(),
+            // SizedBox(height: getProportionateScreenHeight(15)),
+            buildPasswordFormField(),
+            SizedBox(height: getProportionateScreenHeight(15)),
+            FormError(errors: errors),
+            SizedBox(height: getProportionateScreenHeight(15)),
+            GreetButtonTwo(
+              text: "Continue",
+              press: trySubmit,
+            ),
+          ],
+        ),
+      );
+    }
     return Form(
       key: _formKey,
       child: Column(
@@ -103,12 +190,12 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
+  ///code for password
   TextFormField buildPasswordFormField() {
     return TextFormField(
       validator: (value) {
-        if (value!.isEmpty || value.length < 6) {
-          return 'password must be at least 6 character.';
-        }
+        if (value!.isEmpty) return 'Password cannot be empty.';
+        if (value.length < 6) return 'password must be at least 6 character.';
         return null;
       },
       controller: passwordcontroller,
@@ -121,12 +208,13 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
+  ///code email addeess
   TextFormField buildEmailFormField() {
     return TextFormField(
       validator: (value) {
-        if (value!.isEmpty || !value.contains('@')) {
-          return 'please enter a valid email adress.';
-        }
+        if (value!.isEmpty) return 'Please Enter Email Address.';
+        if (!value.contains('@') || !value.contains('.'))
+          return 'Please Enter Valid Email address';
         return null;
       },
       controller: econtroller,
@@ -139,12 +227,12 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
+  ///code for name
   TextFormField buildfnameFormField() {
     return TextFormField(
       validator: (value) {
-        if (value!.isEmpty) {
-          return 'Please Enter Your name.';
-        }
+        if (value!.isEmpty || value == null) return 'Please Enter Your name.';
+        if (value.length < 6) return "Name cannot be less than 6";
         return null;
       },
       controller: fcontroller,
@@ -157,36 +245,37 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 
+  ///code for phone num
   TextFormField buildphonenumberFormField() {
     return TextFormField(
       validator: (value) {
-        if (value!.isEmpty) {
-          return 'Please Enter Your phone number.';
-        }
+        if (value!.isEmpty) return 'Please Enter Your phone number.';
+        if (value.length < 11) return "Please enter valid Phone number";
         return null;
       },
       controller: pcontroller,
       decoration: InputDecoration(
         labelText: "Phone#",
-        hintText: "Enter your Phone#",
+        hintText: "Enter your Phone mum",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomIcon(svgIcon: "assets/icons/Phone.svg"),
       ),
     );
   }
 
+  ///code for location address
   TextFormField buildlastnameFormField() {
     return TextFormField(
       validator: (value) {
         if (value!.isEmpty) {
-          return 'Please Enter Your Adress.';
+          return 'Please Enter Your Address.';
         }
         return null;
       },
       controller: lcontroller,
       decoration: InputDecoration(
-        labelText: "Adress",
-        hintText: "Enter your Adress",
+        labelText: "Address",
+        hintText: "Enter your Address",
         floatingLabelBehavior: FloatingLabelBehavior.always,
         suffixIcon: CustomIcon(svgIcon: "assets/icons/User Icon.svg"),
       ),

@@ -53,13 +53,17 @@ class _abtpageState extends State<abtpage> {
         brightness: Brightness.light,
         centerTitle: true,
         title: appbarlogo.isNotEmpty
-            ? Image.network(
-                appbarlogo,
-                height: getProportionateScreenHeight(270),
+            ? CircleAvatar(
+                radius: 35,
+                backgroundImage: NetworkImage(appbarlogo),
+                // child: Image.network(
+                //     appbarlogo,
+                //     // height: getProportionateScreenHeight(270),
+                //   ),
               )
-            : Image.asset(
-                "assets/images/logo.png",
-                height: getProportionateScreenHeight(270),
+            : CircleAvatar(
+                radius: 35,
+                backgroundImage: AssetImage("assets/images/logo.png"),
               ),
         // title: Text(appbarlogo.toString(), style: TextStyle(color: Colors.amber),),
         // title: appbartitle.isEmpty"assets/images/logo.png",
@@ -70,40 +74,45 @@ class _abtpageState extends State<abtpage> {
         // : Image.network(appbartitle,
         // ),
       ),
-      drawer: NavigationDrawer(),
+      // drawer: NavigationDrawer(),
       body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+        // padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: Container(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CircleAvatar(
-                  backgroundColor: Colors.black,
-                  radius: 16,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    icon: Padding(
-                      padding: const EdgeInsets.only(left: 2.0, bottom: 1),
-                      child: Icon(Icons.arrow_back_ios, size: 18),
-                    ),
-                  )),
-              SizedBox(
-                height: 55.0,
-              ),
-              Text(
-                'About Us:',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: getProportionateScreenWidth(28),
-                  fontWeight: FontWeight.bold,
+              // CircleAvatar(
+              //     backgroundColor: Colors.black,
+              //     radius: 16,
+              //     child: IconButton(
+              //       onPressed: () {
+              //         Navigator.of(context).pop();
+              //       },
+              //       icon: Padding(
+              //         padding: const EdgeInsets.only(left: 2.0, bottom: 1),
+              //         child: Icon(Icons.arrow_back_ios, size: 18),
+              //       ),
+              //     )),
+              // SizedBox(
+              //   height: 55.0,
+              // ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
+                child: Text(
+                  'Company Image:',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: getProportionateScreenWidth(18),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
+              // Text("Company Image"),
               imagevendor.isEmpty
                   ? Container(
                       height: 200.0,
-                      width: 320.0,
+                      width: double.infinity,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage('assets/images/ambulance.jpg'),
@@ -113,8 +122,9 @@ class _abtpageState extends State<abtpage> {
                       ),
                     )
                   : Container(
+                      margin: EdgeInsets.symmetric(horizontal: 20),
                       height: 200.0,
-                      width: 320.0,
+                      width: double.infinity,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(imagevendor),
@@ -123,27 +133,45 @@ class _abtpageState extends State<abtpage> {
                         shape: BoxShape.rectangle,
                       ),
                     ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15),
+                child: Text(
+                  'Company Description:',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: getProportionateScreenWidth(18),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               workvendor.isEmpty
-                  ? RichText(
-                      text: TextSpan(
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: <TextSpan>[
-                          //TextSpan(text: '', style: TextStyle(color: Colors.blue)),
-                          TextSpan(
-                              text:
-                                  'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently  desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum'),
-                        ],
+                  ? Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: <TextSpan>[
+                            //TextSpan(text: '', style: TextStyle(color: Colors.blue)),
+                            TextSpan(
+                                text:
+                                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently  desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum'),
+                          ],
+                        ),
                       ),
                     )
-                  : RichText(
-                      text: TextSpan(
-                        style: TextStyle(color: Colors.black, fontSize: 16),
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: <TextSpan>[
-                          //TextSpan(text: '', style: TextStyle(color: Colors.blue)),
-                          TextSpan(text: workvendor),
-                        ],
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: RichText(
+                        text: TextSpan(
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: <TextSpan>[
+                            //TextSpan(text: '', style: TextStyle(color: Colors.blue)),
+                            TextSpan(text: workvendor),
+                          ],
+                        ),
                       ),
                     )
             ],
@@ -153,7 +181,7 @@ class _abtpageState extends State<abtpage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context, MaterialPageRoute(builder: (_) => AboutDetail()));
+              context, MaterialPageRoute(builder: (_) => AboutDetail(image: imagevendor,)));
         },
         child: Icon(Icons.add),
       ),

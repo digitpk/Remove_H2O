@@ -2,6 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:remove_h2o/mobile/Screens/home/vendor_user_approve.dart';
+import 'package:remove_h2o/mobile/Screens/home/vendor_user_peding.dart';
+import 'package:remove_h2o/mobile/Screens/home/vendor_user_revoke.dart';
 import 'package:remove_h2o/mobile/Screens/sign_up/sign_up_screen.dart';
 import 'package:remove_h2o/mobile/Screens/user_list/users_list.dart';
 import 'package:remove_h2o/mobile/navigartion_drawer.dart';
@@ -10,18 +13,19 @@ import 'package:remove_h2o/mobile/userlist_buttons/approved_usersBody.dart';
 import 'package:remove_h2o/mobile/userlist_buttons/pendingAccess_body.dart';
 import 'package:remove_h2o/mobile/userlist_buttons/revoke_usersbody.dart';
 
-class userlistbody extends StatefulWidget {
-  const userlistbody({Key? key}) : super(key: key);
+class userlistbodyVendor extends StatefulWidget {
+  const userlistbodyVendor({Key? key}) : super(key: key);
 
   @override
-  State<userlistbody> createState() => _userlistbodyState();
+  State<userlistbodyVendor> createState() => _userlistbodyVendorState();
 }
 
-class _userlistbodyState extends State<userlistbody> {
+class _userlistbodyVendorState extends State<userlistbodyVendor> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         iconTheme: IconThemeData(
           color: Colors.blue,
         ),
@@ -34,7 +38,7 @@ class _userlistbodyState extends State<userlistbody> {
           height: getProportionateScreenHeight(270),
         ),
       ),
-      drawer: NavigationDrawer(),
+      // drawer: NavigationDrawer(),
       // appBar: AppBar(
       //   leading: IconButton(
       //     onPressed: () {},
@@ -75,26 +79,28 @@ class _userlistbodyState extends State<userlistbody> {
                   )),
             ),
             SizedBox(
-              height: 25.0,
+              height: 15.0,
             ),
-            SizedBox(height: 20),
-            UserList(
-              text: "Pending Access",
-              icon: FontAwesomeIcons.hourglassEnd,
-              press: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => PendingAccess_body())),
-              },
-            ),
+            // SizedBox(height: 10),
+            // UserList(
+            //   text: "Pending Access",
+            //   icon: FontAwesomeIcons.hourglassEnd,
+            //   press: () => {
+            //     ///code for vendor user pending
+            //     Navigator.push(
+            //         context,
+            //         MaterialPageRoute(
+            //             builder: (context) => VendorUserPending())),
+            //   },
+            // ),
             SizedBox(height: 20),
             UserList(
               text: "Approved User's",
               icon: FontAwesomeIcons.users,
               press: () => {
+                ///code for vendor user approve
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Apprrovedbody()))
+                    MaterialPageRoute(builder: (context) => VendorUserApprove()))
               },
             ),
             SizedBox(height: 20),
@@ -102,22 +108,23 @@ class _userlistbodyState extends State<userlistbody> {
               text: "Revoke Access",
               icon: FontAwesomeIcons.refresh,
               press: () => {
+                ///code for vendor user revoke
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => RevokeuserBody()))
+                    MaterialPageRoute(builder: (context) => VendorUserRevoke()))
               },
             ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            Navigator.push(
-                context, MaterialPageRoute(builder: (_) => SignUpScreen()));
-          });
-        },
-        child: Icon(Icons.add),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     setState(() {
+      //       Navigator.push(
+      //           context, MaterialPageRoute(builder: (_) => SignUpScreen()));
+      //     });
+      //   },
+      //   child: Icon(Icons.add),
+      // ),
     );
   }
 }

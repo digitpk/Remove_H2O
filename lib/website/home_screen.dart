@@ -15,12 +15,12 @@ class WebHomeScreen extends StatelessWidget {
         child: Column(
           children: [
             TopSection(),
-            const SizedBox(height: kDefaultPadding * 2),
+            SizedBox(height: kDefaultPadding * 2),
             AboutSection(),
             ServiceSection(),
             RecentWorkSection(),
             FeedbackSection(),
-            const SizedBox(height: kDefaultPadding),
+            SizedBox(height: kDefaultPadding),
             ContactSection(),
             // This SizeBox just for demo
             // SizedBox(

@@ -9,6 +9,7 @@ import 'package:remove_h2o/mobile/screen_buttons/send_referral.dart';
 import 'package:remove_h2o/mobile/size_config.dart';
 import 'package:remove_h2o/mobile/sphome/component/sp_home_menu.dart';
 import 'package:remove_h2o/mobile/sphome/sp_nav_drawer.dart';
+import 'package:remove_h2o/mobile/sphome/user_list_body.dart';
 
 UserCredential? userCredential;
 
@@ -41,6 +42,7 @@ class _BodyState extends State<SPBody> {
         child: Column(
           children: [
             SPHomeMenu(
+              boxColor: Colors.blue,
               text: "Send a Referral",
               icon: FontAwesomeIcons.users,
               press: () {
@@ -50,6 +52,7 @@ class _BodyState extends State<SPBody> {
             ),
             SizedBox(height: 20),
             SPHomeMenu(
+              boxColor: Colors.greenAccent,
               text: "Finance",
               icon: FontAwesomeIcons.lineChart,
               press: () {
@@ -59,13 +62,17 @@ class _BodyState extends State<SPBody> {
             ),
             SizedBox(height: 20),
             SPHomeMenu(
+              boxColor: Colors.orangeAccent,
               text: "Vendor's List",
               icon: FontAwesomeIcons.list,
               press: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => userlistbody()));
+                    MaterialPageRoute(builder: (context) => UserListBodyAdmin()));
               },
             ),
+            // Container(
+            //   child: Text("heloooooo"),
+            // )
           ],
         ),
       ),

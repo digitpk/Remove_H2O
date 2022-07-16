@@ -48,13 +48,16 @@ class _PendingAccessState extends State<PendingAccess> {
             //   iconSize: 40,
             //   onPressed: null,
             // ),
-            // CircleAvatar(
-            //     radius: (30),
-            //     backgroundColor: Colors.white,
-            //     child: ClipRRect(
-            //       borderRadius: BorderRadius.circular(50),
-            //       child: Image.asset("assets/images/Profile Image.png"),
-            //     )),
+            Padding(
+              padding: const EdgeInsets.only(right: 10.0),
+              child: CircleAvatar(
+                  radius: (30),
+                  backgroundColor: Colors.white,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.asset("assets/images/Profile Image.png"),
+                  )),
+            ),
             // SizedBox(width: 20),
             Expanded(child: Text(widget.text)),
             // Icon(Icons.arrow_forward_ios),

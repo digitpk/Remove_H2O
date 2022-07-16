@@ -20,6 +20,7 @@ class _ApprrovedbodyState extends State<Apprrovedbody> {
   final Stream<QuerySnapshot> usersStream = FirebaseFirestore.instance
       .collection('Users')
       .where('role', isEqualTo: 2)
+      .where('deleted', isEqualTo: false)
       .where('approved', isEqualTo: true)
       .where('suapproved', isEqualTo: true)
       .snapshots();
@@ -28,6 +29,7 @@ class _ApprrovedbodyState extends State<Apprrovedbody> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           iconTheme: IconThemeData(
             color: Colors.blue,
           ),
@@ -40,7 +42,7 @@ class _ApprrovedbodyState extends State<Apprrovedbody> {
             height: getProportionateScreenHeight(270),
           ),
         ),
-        drawer: NavigationDrawer(),
+        // drawer: NavigationDrawer(),
         // appBar: AppBar(
         //   leading: IconButton(
         //     onPressed: () {},
@@ -116,6 +118,7 @@ class _ApprrovedbodyState extends State<Apprrovedbody> {
                         Map<String, dynamic> data =
                             document.data()! as Map<String, dynamic>;
                         print(Text(data['firstName']));
+                        print("//////////////////");
                         return ApprovedUsers(
                           // email: '',
                           // fname: "",

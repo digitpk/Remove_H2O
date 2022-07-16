@@ -9,7 +9,8 @@ class Financescreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
+        // automaticallyImplyLeading: false,
+        iconTheme: const IconThemeData(
           color: Colors.blue,
         ),
         toolbarHeight: 90,
@@ -21,7 +22,7 @@ class Financescreen extends StatelessWidget {
           height: getProportionateScreenHeight(270),
         ),
       ),
-      drawer: NavigationDrawer(),
+      // drawer: NavigationDrawer(),
       // appBar: AppBar(
       //   leading: IconButton(
       //     onPressed: () {},
@@ -40,10 +41,8 @@ class Financescreen extends StatelessWidget {
       //     height: getProportionateScreenHeight(270),
       //   ),
       // ),
-      body: Center(
-        child: Container(
-          child: Text('there is no data is present'),
-        ),
+      body: const Center(
+        child: Text('there is no data is present'),
       ),
     );
   }

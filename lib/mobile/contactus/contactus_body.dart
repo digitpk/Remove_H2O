@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:remove_h2o/mobile/Screens/aboutus_screen.dart';
 import 'package:remove_h2o/mobile/contactus/contactus_screen.dart';
-import 'package:remove_h2o/mobile/navigartion_drawer.dart';
 import 'package:remove_h2o/mobile/size_config.dart';
 
 class ContactusBody extends StatelessWidget {
@@ -21,45 +20,52 @@ class ContactusBody extends StatelessWidget {
         brightness: Brightness.light,
         centerTitle: true,
         title: appbarlogo.isNotEmpty
-            ? Image.network(
-                appbarlogo,
-                height: getProportionateScreenHeight(270),
+            ? CircleAvatar(
+                radius: 35,
+                backgroundImage: NetworkImage(appbarlogo),
+                // child: Image.network(
+                //     appbarlogo,
+                //     // height: getProportionateScreenHeight(270),
+                //   ),
               )
-            : Image.asset(
-                "assets/images/logo.png",
-                height: getProportionateScreenHeight(270),
+            : CircleAvatar(
+                radius: 35,
+                backgroundImage: AssetImage("assets/images/logo.png"),
               ),
       ),
-      drawer: NavigationDrawer(),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CircleAvatar(
-                backgroundColor: Colors.black,
-                radius: 16,
-                child: IconButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: Padding(
-                    padding: const EdgeInsets.only(left: 2.0, bottom: 1),
-                    child: Icon(Icons.arrow_back_ios, size: 18),
-                  ),
-                )),
-            SizedBox(height: 55),
-            Text('Contact Us:',
+      // drawer: NavigationDrawer(),
+      body: Column(
+        // mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // CircleAvatar(
+          //     backgroundColor: Colors.black,
+          //     radius: 16,
+          //     child: IconButton(
+          //       onPressed: () {
+          //         Navigator.of(context).pop();
+          //       },
+          //       icon: Padding(
+          //         padding: const EdgeInsets.only(left: 2.0, bottom: 1),
+          //         child: Icon(Icons.arrow_back_ios, size: 18),
+          //       ),
+          //     )),
+          // SizedBox(height: 55),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            child: Text('Contact Us:',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: getProportionateScreenWidth(28),
                   fontWeight: FontWeight.bold,
                 )),
-            SizedBox(height: 20),
-            StreamBuilder(
-              stream:
-                  FirebaseFirestore.instance.collection('Users').snapshots(),
+          ),
+          Expanded(
+            child: StreamBuilder(
+              stream: FirebaseFirestore.instance
+                  .collection('Users')
+                  .where('docId', isEqualTo: 'a03QWdLHKySKptHEZjsmACNiQ8q2')
+                  .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
@@ -81,6 +87,11 @@ class ContactusBody extends StatelessWidget {
                         children: [
                           ctspage(
                             text: data['firstName'],
+                            icon: FontAwesomeIcons.person,
+                            press: null,
+                          ),
+                          ctspage(
+                            text: data['Adress'],
                             icon: FontAwesomeIcons.mapLocationDot,
                             press: null,
                           ),
@@ -98,9 +109,9 @@ class ContactusBody extends StatelessWidget {
                       );
                     }).toList());
               },
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

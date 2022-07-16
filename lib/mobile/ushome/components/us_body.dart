@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:remove_h2o/mobile/screen_buttons/reportEmergency_Screen.dart';
-import 'package:remove_h2o/mobile/screen_buttons/send_referral.dart';
+import 'package:remove_h2o/mobile/screen_buttons/take_photo.dart';
 import 'package:remove_h2o/mobile/size_config.dart';
 import 'package:remove_h2o/mobile/userleadgenerationbody.dart';
 import 'package:remove_h2o/mobile/ushome/components/us_home_menu.dart';
@@ -41,6 +41,7 @@ class _BodyState extends State<UsBody> {
         child: Column(
           children: [
             USHomeMenu(
+              boxColor: Colors.redAccent,
               text: "Report Emergency",
               icon: FontAwesomeIcons.phone,
               press: () => {
@@ -54,15 +55,17 @@ class _BodyState extends State<UsBody> {
             ),
             SizedBox(height: 20),
             USHomeMenu(
+              boxColor: Colors.blue,
               text: "Send a Referral",
               icon: FontAwesomeIcons.users,
               press: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => SendReferral()));
+                    MaterialPageRoute(builder: (context) => PhotoData()));
               },
             ),
             SizedBox(height: 20),
             USHomeMenu(
+              boxColor: Colors.brown,
               text: "Lead Generation list",
               icon: FontAwesomeIcons.rectangleAd,
               press: () {

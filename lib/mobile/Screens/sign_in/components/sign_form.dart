@@ -1,5 +1,8 @@
 // ignore_for_file: prefer_const_constructors, curly_braces_in_flow_control_structures
 
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:remove_h2o/mobile/Screens/forgot_password/forgot_password_screen.dart';
 import 'package:remove_h2o/mobile/components/custom_surfix_icon.dart';
@@ -28,7 +31,6 @@ class _SignFormState extends State<SignForm> {
 
   void trySubmit() {
     final isValid = _formKey.currentState!.validate();
-
     if (isValid) {
       _formKey.currentState!.save();
       widget.submitFunction(
@@ -56,6 +58,90 @@ class _SignFormState extends State<SignForm> {
 
   @override
   Widget build(BuildContext context) {
+    if (kIsWeb || Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
+      return Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: buildEmailFormField(),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: getProportionateScreenWidth(20)),
+                Expanded(
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: buildPasswordFormField(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            // buildEmailFormField(),
+            // SizedBox(height: getProportionateScreenHeight(30)),
+            // buildPasswordFormField(),
+            SizedBox(height: getProportionateScreenHeight(30)),
+            Row(
+              children: [
+                Checkbox(
+                  value: remember,
+                  activeColor: Colors.blue,
+                  onChanged: (value) {
+                    setState(() {
+                      remember = value!;
+                      remember = remember;
+                      print(remember);
+                    });
+                  },
+                ),
+                Text(
+                  "Remember me",
+                  style: TextStyle(
+                      color: Color.fromARGB(255, 49, 126, 226),
+                      fontWeight: FontWeight.w600),
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ForgotPasswordScreen()),
+                  ),
+                  child: Text(
+                    "Forgot Password ?",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Color.fromARGB(255, 49, 126, 226),
+                        fontWeight: FontWeight.w600),
+                  ),
+                )
+              ],
+            ),
+            FormError(errors: errors),
+            GreetButtonTwo(
+              text: "Continue",
+              press: () {
+                trySubmit();
+                // print("//////////");
+                // if all are valid then go to success screen
+                // KeyboardUtil.hideKeyboard(context);
+                // Navigator.push(
+                //     context, MaterialPageRoute(builder: (context) => Home()));
+              },
+            ),
+          ],
+        ),
+      );
+    }
     return Form(
       key: _formKey,
       child: Column(
@@ -106,6 +192,7 @@ class _SignFormState extends State<SignForm> {
             text: "Continue",
             press: () {
               trySubmit();
+              print('////');
               // if all are valid then go to success screen
               // KeyboardUtil.hideKeyboard(context);
               // Navigator.push(
@@ -120,13 +207,14 @@ class _SignFormState extends State<SignForm> {
   TextFormField buildPasswordFormField() {
     return TextFormField(
       validator: (value) {
-        if (value!.isEmpty || value.length < 6) {
-          return 'password must be at least 6 character.';
-        }
+        if (value ==null || value.isEmpty)
+          return 'password field cannot be empty.';
+        if(value.length < 6)
+          return 'password length cannot be less than 6.';
         return null;
       },
       controller: paswordcontroller,
-      obscureText: true,
+      // obscureText: true,
       decoration: InputDecoration(
         labelText: "Password",
         hintText: "Enter your password",
@@ -141,9 +229,11 @@ class _SignFormState extends State<SignForm> {
   TextFormField buildEmailFormField() {
     return TextFormField(
       validator: (value) {
-        if (value!.isEmpty || !value.contains('@')) {
-          return 'please enter a valid email adress.';
-        }
+        if (value==null || value.isEmpty)
+          return 'Email address cannot be empty';
+        String pattern = r'\w+@\w+\.\w+';
+        if (!RegExp(pattern).hasMatch(value))
+          return 'InvalidE-mail Address format.';
         return null;
       },
       controller: emailcontroller,

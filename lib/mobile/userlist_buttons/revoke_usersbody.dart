@@ -24,6 +24,7 @@ class _RevokeuserBodyState extends State<RevokeuserBody> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           iconTheme: IconThemeData(
             color: Colors.blue,
           ),
@@ -36,7 +37,7 @@ class _RevokeuserBodyState extends State<RevokeuserBody> {
             height: getProportionateScreenHeight(270),
           ),
         ),
-        drawer: NavigationDrawer(),
+        // drawer: NavigationDrawer(),
         // appBar: AppBar(
         //   leading: IconButton(
         //     onPressed: () {},

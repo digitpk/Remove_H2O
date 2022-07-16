@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">removeh20</string>
+    <string name="facebook_app_id">355214930117102</string>
+    <string name="fb_login_protocol_scheme">fb355214930117102</string>
+</resources>

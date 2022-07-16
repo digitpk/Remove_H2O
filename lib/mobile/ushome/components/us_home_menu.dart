@@ -6,12 +6,14 @@ class USHomeMenu extends StatelessWidget {
     Key? key,
     required this.text,
     required this.icon,
+    required this.boxColor,
     this.press,
   }) : super(key: key);
 
   final String text;
   final IconData icon;
   final VoidCallback? press;
+  final Color boxColor;
 
   @override
   Widget build(BuildContext context) {
